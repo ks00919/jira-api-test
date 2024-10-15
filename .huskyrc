@@ -1,5 +1,6 @@
 {
   "hooks": {
-    "prepare-commit-msg": "./huskyhooks/prepare-commit-msg"
+    "prepare-commit-msg": "./huskyhooks/prepare-commit-msg",
+    "pre-push": "./huskyhooks/pre-push"
   }
 }
