@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "prepare-commit-msg": "./huskyhooks/prepare-commit-msg"
+  }
+}
