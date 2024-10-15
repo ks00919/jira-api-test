@@ -1,0 +1,24 @@
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# 스킵할 브랜치 이름 설정
+if [[ "$BRANCH_NAME" =~ ^(main|develop|release|hotfix)$ ]]; then
+    exit 0
+fi
+
+# feat/이슈번호 형식에서 이슈번호 추출
+if [[ "$BRANCH_NAME" =~ ^feat/(KAN-[0-9]+) ]]; then
+    ISSUE_NUMBER=${BASH_REMATCH[1]}
+else
+    exit 0
+fi
+
+# 커밋 메시지에 이미 이슈번호가 포함되어 있으면 스킵
+if grep -q "$ISSUE_NUMBER" "$COMMIT_MSG_FILE"; then
+    exit 0
+fi
+
+# 이슈번호를 커밋 메시지의 앞에 추가
+sed -i.bak -e "\$s/\$/(${ISSUE_NUMBER})/" "$COMMIT_MSG_FILE"
